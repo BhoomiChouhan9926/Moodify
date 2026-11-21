@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { initFaceLandmarker, classifyExpression } from '../utils/utils.js'// <-- Yahan import kiya
 
-export default function FaceExpressionTracker() {
+export default function FaceExpressionTracker({onClick = ()=>{}}) {
   const videoRef = useRef(null);
   const [faceLandmarker, setFaceLandmarker] = useState(null);
   const [expression, setExpression] = useState('Click button to detect');
@@ -37,6 +37,7 @@ export default function FaceExpressionTracker() {
         const scores = result.faceBlendshapes[0].categories;
         const detected = classifyExpression(scores); // <-- Utility function call
         setExpression(detected);
+        onClick(detected); // <-- Callback to parent component
       } else {
         setExpression('No face detected');
       }
@@ -46,26 +47,43 @@ export default function FaceExpressionTracker() {
   };
 
   return (
-    <div style={{ textAlign: 'center', fontFamily: 'sans-serif', marginTop: '20px' }}>
-      <h2>Real-Time Face Expression Detection</h2>
-      <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div className="face-detector">
+      <div className="face-detector__heading">
+        <div>
+          <span className="face-detector__live"><i /> Live camera</span>
+          <h2>Expression detector</h2>
+        </div>
+      </div>
+
+      <div className="face-detector__camera">
         <video
           ref={videoRef}
           autoPlay
           playsInline
           muted
-          style={{ width: '640px', height: '480px', transform: 'scaleX(-1)', borderRadius: '8px' }}
+          aria-label="Live webcam preview"
         />
+        <span className="face-detector__corner face-detector__corner--one" />
+        <span className="face-detector__corner face-detector__corner--two" />
+        <span className="face-detector__corner face-detector__corner--three" />
+        <span className="face-detector__corner face-detector__corner--four" />
       </div>
-      <h3 style={{ marginTop: '15px' }}>Current Expression: {expression}</h3>
-      
-      {/* Button to trigger detection manually */}
-      <button 
-        onClick={handleDetectClick}
-        style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px' }}
-      >
-        Detect Expression
-      </button>
+
+      <div className="face-detector__footer">
+        <div className="face-detector__expression">
+          <span>Detected mood</span>
+          <strong>{expression}</strong>
+        </div>
+
+        <button
+          className="face-detector__button"
+          type="button"
+          onClick={handleDetectClick}
+        >
+          <span aria-hidden="true">◎</span>
+          Detect expression
+        </button>
+      </div>
     </div>
   );
 }

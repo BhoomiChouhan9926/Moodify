@@ -50,16 +50,16 @@ export const classifyExpression = (shapes) => {
   const avgMouthPress = (mouthPressLeft + mouthPressRight) / 2;
 
   if (avgSmile > 0.4) {
-    return '😊 Smiling';
+    return 'Happy';
   } 
   else if (avgFrown > 0.10 || (browInnerUp > 0.15 && (avgFrown > 0.1 || avgMouthPress > 0.10)) || (browInnerUp > 0.35 && avgBrowDown > 0.15)) {
-    return '😢 Sad / Frowning';
+    return 'Sad';
   } 
   else if (jawOpen > 0.4) {
-    return '😲 Surprised / Mouth Open';
+    return 'Surprised';
   } 
   else if (browRaise > 0.4) {
-    return '🤨 Surprised / Eyebrows Raised';
+    return  'Surprised';
   } 
   else {
     return '😐 Neutral';

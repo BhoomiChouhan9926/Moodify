@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
     .then(()=>{
         console.log("Connected to database")
     }).catch(err =>{
-        console.log("err in connecting to DB",srr)
+        console.log("err in connecting to DB",err)
     })
  }
 module.exports = ConnectToDb ;

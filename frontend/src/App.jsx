@@ -1,11 +1,22 @@
 import React from 'react'
+import { RouterProvider } from 'react-router'
+import { router } from './app.routes'
+import './features/shared/style/global.scss'
 import FaceExpressionTracker from './features/faceDetection/components/FaceExpressionTracker'
+import { AuthProvider } from './features/auth/auth.context'
+import SongContextProvider  from './features/home/song.context'
 
 const App = () => {
   return (
-    <div>
-    <FaceExpressionTracker/>
-    </div>
+    <AuthProvider>
+      <SongContextProvider>
+        <RouterProvider router={router}/>
+      </SongContextProvider>
+    </AuthProvider>
+  
+   
+  
+    
   )
 }
 
